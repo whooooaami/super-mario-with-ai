@@ -19,6 +19,8 @@ from torch.distributions.categorical import Categorical
 from torch.utils.tensorboard import SummaryWriter
 from gym.wrappers import *
 
+import wandb
+
 
 def parse_args():
     # fmt: off
@@ -84,7 +86,6 @@ def parse_args():
 
 def make_env(env_id, seed, idx, capture_video, run_name):
     def thunk():
-        #env = gym.make(env_id)
         env = gym_super_mario_bros.make('SuperMarioBros-v2')
         env = JoypadSpace(env, SIMPLE_MOVEMENT)
         env = gym.wrappers.RecordEpisodeStatistics(env)
@@ -157,18 +158,22 @@ class Agent(nn.Module):
 if __name__ == "__main__":
     args = parse_args()
     run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
+    
     if args.track:
         import wandb
+        
+        #TODO: you need to set your environment variable!
+        wandb_api_key = os.environ["WANDB_API_KEY"]
+
+        os.environ["WANDB_MODE"] = "online"
 
         wandb.init(
             project=args.wandb_project_name,
-            entity=args.wandb_entity,
             sync_tensorboard=True,
             config=vars(args),
             name=run_name,
-            monitor_gym=True,
-            save_code=True,
         )
+
     writer = SummaryWriter(f"runs/{run_name}")
     writer.add_text(
         "hyperparameters",
@@ -236,6 +241,12 @@ if __name__ == "__main__":
                     print(f"global_step={global_step}, episodic_return={item['episode']['r']}")
                     writer.add_scalar("charts/episodic_return", item["episode"]["r"], global_step)
                     writer.add_scalar("charts/episodic_length", item["episode"]["l"], global_step)
+
+                    wandb.log({
+                        "charts/episodic_return" :  item["episode"]["r"],
+                        "charts/episodic_length" : item["episode"]["l"]
+                    }, step = global_step)
+
                     break
 
         # bootstrap value if not done
@@ -332,6 +343,18 @@ if __name__ == "__main__":
         writer.add_scalar("losses/explained_variance", explained_var, global_step)
         print("SPS:", int(global_step / (time.time() - start_time)))
         writer.add_scalar("charts/SPS", int(global_step / (time.time() - start_time)), global_step)
+
+        wandb.log({
+            "charts/learning_rate" : optimizer.param_groups[0]["lr"],
+            "losses/value_loss" : v_loss.item(),
+            "losses/policy_loss" : pg_loss.item(),
+            "losses/entropy" : entropy_loss.item(),
+            "losses/old_approx_kl" :  old_approx_kl.item(),
+            "losses/approx_kl" : old_approx_kl.item(),
+            "losses/clipfrac" : np.mean(clipfracs),
+            "losses/explained_variance" : explained_var,
+            "charts/SPS" : int(global_step / (time.time() - start_time))
+        }, step = global_step)
 
     envs.close()
     writer.close()
