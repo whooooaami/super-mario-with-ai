@@ -16,10 +16,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.distributions.categorical import Categorical
-from torch.utils.tensorboard import SummaryWriter
 from gym.wrappers import *
 
 import wandb
+from IPython import embed
 
 
 def parse_args():
@@ -77,6 +77,10 @@ def parse_args():
         help="the maximum norm for the gradient clipping")
     parser.add_argument("--target-kl", type=float, default=None,
         help="the target KL divergence threshold")
+    parser.add_argument("--eval-interval", type=int, default=1,
+        help="the number of updates between each evaluation")
+    parser.add_argument("--save-path", type=str, default="checkpoints",
+        help="the path to save the checkpoints")
     args = parser.parse_args()
     args.batch_size = int(args.num_envs * args.num_steps)
     args.minibatch_size = int(args.batch_size // args.num_minibatches)
@@ -141,12 +145,12 @@ class Agent(nn.Module):
         )
 
     def get_value(self, x):
-        x = (x / 255.)
+        x = x / 255.
         x = self.network(x)
         return self.critic(x)
 
     def get_action_and_value(self, x, action=None):
-        x = (x / 255.)
+        x = x / 255.
         x = self.network(x)
         logits = self.actor(x)
         probs = Categorical(logits=logits)
@@ -157,6 +161,8 @@ class Agent(nn.Module):
 
 if __name__ == "__main__":
     args = parse_args()
+
+    save_path = args.save_path
     run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
     
     if args.track:
@@ -169,16 +175,9 @@ if __name__ == "__main__":
 
         wandb.init(
             project=args.wandb_project_name,
-            sync_tensorboard=True,
             config=vars(args),
             name=run_name,
         )
-
-    writer = SummaryWriter(f"runs/{run_name}")
-    writer.add_text(
-        "hyperparameters",
-        "|param|value|\n|-|-|\n%s" % ("\n".join([f"|{key}|{value}|" for key, value in vars(args).items()])),
-    )
 
     # TRY NOT TO MODIFY: seeding
     random.seed(args.seed)
@@ -191,6 +190,9 @@ if __name__ == "__main__":
     # env setup
     envs = gym.vector.SyncVectorEnv(
         [make_env(args.env_id, args.seed + i, i, args.capture_video, run_name) for i in range(args.num_envs)]
+    )
+    test_env = gym.vector.SyncVectorEnv(
+        [make_env(args.env_id, np.random.randint(1000), i, args.capture_video, run_name) for i in range(1)]
     )
     assert isinstance(envs.single_action_space, gym.spaces.Discrete), "only discrete action space is supported"
 
@@ -212,6 +214,7 @@ if __name__ == "__main__":
     next_done = torch.zeros(args.num_envs).to(device)
     num_updates = args.total_timesteps // args.batch_size
 
+    best_reward = -999
     for update in range(1, num_updates + 1):
         # Annealing the rate if instructed to do so.
         if args.anneal_lr:
@@ -235,16 +238,13 @@ if __name__ == "__main__":
             next_obs, reward, done, info = envs.step(action.cpu().numpy())
             rewards[step] = torch.tensor(reward).to(device).view(-1)
             next_obs, next_done = torch.Tensor(next_obs).to(device), torch.Tensor(done).to(device)
-
+           
             for item in info:
-                if "episode" in item.keys():
-                    print(f"global_step={global_step}, episodic_return={item['episode']['r']}")
-                    writer.add_scalar("charts/episodic_return", item["episode"]["r"], global_step)
-                    writer.add_scalar("charts/episodic_length", item["episode"]["l"], global_step)
+                if item["life"] < 2:
+                    print(f"global_step={global_step}, episodic_ingame_score={item['score']}")
 
                     wandb.log({
-                        "charts/episodic_return" :  item["episode"]["r"],
-                        "charts/episodic_length" : item["episode"]["l"]
+                        "charts/episodic_ingame_score" :  item["score"],
                     }, step = global_step)
 
                     break
@@ -333,17 +333,6 @@ if __name__ == "__main__":
         explained_var = np.nan if var_y == 0 else 1 - np.var(y_true - y_pred) / var_y
 
         # TRY NOT TO MODIFY: record rewards for plotting purposes
-        writer.add_scalar("charts/learning_rate", optimizer.param_groups[0]["lr"], global_step)
-        writer.add_scalar("losses/value_loss", v_loss.item(), global_step)
-        writer.add_scalar("losses/policy_loss", pg_loss.item(), global_step)
-        writer.add_scalar("losses/entropy", entropy_loss.item(), global_step)
-        writer.add_scalar("losses/old_approx_kl", old_approx_kl.item(), global_step)
-        writer.add_scalar("losses/approx_kl", approx_kl.item(), global_step)
-        writer.add_scalar("losses/clipfrac", np.mean(clipfracs), global_step)
-        writer.add_scalar("losses/explained_variance", explained_var, global_step)
-        print("SPS:", int(global_step / (time.time() - start_time)))
-        writer.add_scalar("charts/SPS", int(global_step / (time.time() - start_time)), global_step)
-
         wandb.log({
             "charts/learning_rate" : optimizer.param_groups[0]["lr"],
             "losses/value_loss" : v_loss.item(),
@@ -356,5 +345,34 @@ if __name__ == "__main__":
             "charts/SPS" : int(global_step / (time.time() - start_time))
         }, step = global_step)
 
+        if update % args.eval_interval == 0:
+            eval_obs = test_env.reset()
+            eval_done = False
+            eval_steps = 0
+            eval_reward = 0
+            while not eval_done:       
+                with torch.no_grad():
+                    action, logprob, _, value = agent.get_action_and_value(torch.Tensor(eval_obs).to(device))
+                    eval_obs, r, eval_done, eval_info = test_env.step(action.cpu().numpy())
+                    eval_reward += r
+                    eval_steps += 1
+                    
+                    if eval_info[0]["life"] < 2:
+                        eval_done = True
+
+            print("Eval agent at step: " + str(global_step) + ", achieved reward: " + str(eval_reward) + " and survived for: " + str(eval_steps) + " steps")
+
+            if eval_reward > best_reward:
+                if not os.path.exists(args.save_path):
+                    os.makedirs(args.save_path)
+                
+                torch.save(agent.state_dict(), args.save_path + f'/ppo-{global_step}.pt')
+                best_reward = eval_reward
+                print("Saved new best agent!")
+
+            wandb.log({
+                "eval/episodic_return" : eval_reward,
+                "eval/episodic_length" : eval_steps
+            }, step = global_step)
+
     envs.close()
-    writer.close()

@@ -1,0 +1,13 @@
+/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/torch/cuda/__init__.py:146: UserWarning:
+NVIDIA RTX A4000 with CUDA capability sm_86 is not compatible with the current PyTorch installation.
+The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_70.
+If you want to use the NVIDIA RTX A4000 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+  warnings.warn(incompatible_device_warn.format(device_name, capability, " ".join(arch_list), device_name))
+Traceback (most recent call last):
+  File "ppo.py", line 229, in <module>
+    action, logprob, _, value = agent.get_action_and_value(next_obs)
+  File "ppo.py", line 149, in get_action_and_value
+    x = (x / 255.)
+RuntimeError: CUDA error: no kernel image is available for execution on the device
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.

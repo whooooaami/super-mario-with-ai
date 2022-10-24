@@ -1,0 +1,27 @@
+
+SPS: 505
+[34m[1mwandb[39m[22m: [33mWARNING[39m Step cannot be set when using syncing with tensorboard. Please log your step values as a metric such as 'global_step'
+Traceback (most recent call last):
+  File "ppo.py", line 235, in <module>
+    print(f"global_step={global_step}, episodic_return={item['episode']['r']}")
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/vector/vector_env.py", line 94, in step
+    return self.step_wait()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/vector/sync_vector_env.py", line 83, in step_wait
+    observation, self._rewards[i], self._dones[i], info = env.step(action)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/wrappers/frame_stack.py", line 115, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/core.py", line 323, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/core.py", line 323, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/wrappers/record_episode_statistics.py", line 26, in step
+    observations, rewards, dones, infos = super(RecordEpisodeStatistics, self).step(
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/core.py", line 289, in step
+    return self.env.step(action)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/nes_py/wrappers/joypad_space.py", line 74, in step
+    return self.env.step(self._action_map[action])
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/gym/wrappers/time_limit.py", line 18, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/nes_py/nes_env.py", line 300, in step
+    _LIB.Step(self._env)
+KeyboardInterrupt

@@ -1,0 +1,133 @@
+Python 3.8.13 | packaged by conda-forge | (default, Mar 25 2022, 06:04:18)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.5.0 -- An enhanced Interactive Python. Type '?' for help.
+{'coins': 0,
+ 'flag_get': False,
+ 'life': 2,
+ 'score': 0,
+ 'stage': 1,
+ 'status': 'small',
+ 'time': 400,
+ 'world': 1,
+ 'x_pos': 40,
+ 'y_pos': 79}
+array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+Python 3.8.13 | packaged by conda-forge | (default, Mar 25 2022, 06:04:18)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.5.0 -- An enhanced Interactive Python. Type '?' for help.
+array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+{'coins': 0,
+ 'flag_get': False,
+ 'life': 2,
+ 'score': 0,
+ 'stage': 1,
+ 'status': 'small',
+ 'time': 400,
+ 'world': 1,
+ 'x_pos': 40,
+ 'y_pos': 79}
+Python 3.8.13 | packaged by conda-forge | (default, Mar 25 2022, 06:04:18)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.5.0 -- An enhanced Interactive Python. Type '?' for help.
+Python 3.8.13 | packaged by conda-forge | (default, Mar 25 2022, 06:04:18)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.5.0 -- An enhanced Interactive Python. Type '?' for help.
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 956, in __call__
+    self.handler((etype, evalue, etb))
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 945, in handler
+    ostream.write(self.text(etype, evalue, etb))
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 332, in text
+    tb_list = self.structured_traceback(etype, value, tb,
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 1006, in structured_traceback
+    return VerboseTB.structured_traceback(
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 859, in structured_traceback
+    formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 793, in format_exception_as_a_whole
+    self.get_records(etb, number_of_lines_of_context, tb_offset) if etb else []
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/ultratb.py", line 848, in get_records
+    return list(stack_data.FrameInfo.stack_data(etb, options=options))[tb_offset:]
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/stack_data/core.py", line 597, in stack_data
+    yield from collapse_repeated(
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/stack_data/utils.py", line 84, in collapse_repeated
+    yield from map(mapper, original_group)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/stack_data/core.py", line 587, in mapper
+    return cls(f, options)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/stack_data/core.py", line 551, in __init__
+    self.executing = Source.executing(frame_or_tb)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/executing/executing.py", line 329, in executing
+    source = cls.for_frame(frame)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/executing/executing.py", line 251, in for_frame
+    return cls.for_filename(frame.f_code.co_filename, frame.f_globals or {}, use_cache)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/executing/executing.py", line 279, in for_filename
+    return cls._for_filename_and_lines(filename, lines)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/executing/executing.py", line 289, in _for_filename_and_lines
+    result = source_cache[(filename, lines)] = cls(filename, lines)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/stack_data/core.py", line 97, in __init__
+    self.asttokens()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/executing/executing.py", line 393, in asttokens
+    return ASTTokens(
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/asttokens/asttokens.py", line 73, in __init__
+    self.mark_tokens(self._tree)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/asttokens/asttokens.py", line 86, in mark_tokens
+    MarkTokens(self).visit_tree(root_node)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/asttokens/mark_tokens.py", line 66, in visit_tree
+    util.visit_tree(node, self._visit_before_children, self._visit_after_children)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/asttokens/util.py", line 246, in visit_tree
+    ret = postvisit(current, par_value, cast(Optional[Token], value))
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/asttokens/mark_tokens.py", line 90, in _visit_after_children
+    for child in cast(Callable, self._iter_children)(node):
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/asttokens/util.py", line 149, in iter_children_ast
+    if child.__class__ not in SINGLETONS:
+KeyboardInterrupt
+Original exception was:
+Traceback (most recent call last):
+  File "ppo.py", line 243, in <module>
+    if item["life"] < 2:
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/terminal/embed.py", line 397, in embed
+    shell = InteractiveShellEmbed.instance(_init_location_id='%s:%s' % (
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/config/configurable.py", line 551, in instance
+    inst = cls(*args, **kwargs)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/terminal/embed.py", line 168, in __init__
+    super(InteractiveShellEmbed,self).__init__(**kw)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/terminal/interactiveshell.py", line 651, in __init__
+    super(TerminalInteractiveShell, self).__init__(*args, **kwargs)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 588, in __init__
+    self.init_magics()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/terminal/embed.py", line 183, in init_magics
+    super(InteractiveShellEmbed, self).init_magics()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/terminal/interactiveshell.py", line 634, in init_magics
+    super(TerminalInteractiveShell, self).init_magics()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 2207, in init_magics
+    self.register_magics(m.AutoMagics, m.BasicMagics, m.CodeMagics,
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/magic.py", line 443, in register
+    m = m(shell=self.shell)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/magics/script.py", line 127, in __init__
+    super(ScriptMagics, self).__init__(shell=shell)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/magic.py", line 575, in __init__
+    super(Magics, self).__init__(**kwargs)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/config/configurable.py", line 109, in __init__
+    self.config = config
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/traitlets.py", line 715, in __set__
+    self.set(obj, value)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/traitlets.py", line 704, in set
+    obj._notify_trait(self.name, old_value, new_value)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/traitlets.py", line 1374, in _notify_trait
+    self.notify_change(
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/traitlets.py", line 1386, in notify_change
+    return self._notify_observers(change)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/traitlets/traitlets.py", line 1388, in _notify_observers
+    def _notify_observers(self, event):
+KeyboardInterrupt
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 3745, in atexit_operations
+    self._atexit_once()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 3724, in _atexit_once
+    self.reset(new_session=False)
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/interactiveshell.py", line 1350, in reset
+    self.displayhook.flush()
+  File "/home/roger/anaconda3/envs/mario/lib/python3.8/site-packages/IPython/core/displayhook.py", line 311, in flush
+    gc.collect()
+KeyboardInterrupt

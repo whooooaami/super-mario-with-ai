@@ -1,0 +1,25 @@
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_setup.py:_flush():68] Configure stats pid to 2563129
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_setup.py:_flush():68] Loading settings from /home/roger/.config/wandb/settings
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_setup.py:_flush():68] Loading settings from /home/roger/Desktop/super-mario-with-ai/wandb/settings
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_setup.py:_flush():68] Loading settings from environment variables: {'api_key': '***REDACTED***', '_require_service': 'True', 'mode': 'online'}
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_setup.py:_flush():68] Inferring run settings from compute environment: {'program_relpath': 'ppo.py', 'program': 'ppo.py'}
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_init.py:_log_setup():476] Logging user logs to /home/roger/Desktop/super-mario-with-ai/wandb/run-20221024_023701-13hsrifd/logs/debug.log
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_init.py:_log_setup():477] Logging internal logs to /home/roger/Desktop/super-mario-with-ai/wandb/run-20221024_023701-13hsrifd/logs/debug-internal.log
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_init.py:init():516] calling init triggers
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_init.py:init():519] wandb.init called with sweep_config: {}
+config: {'exp_name': 'ppo', 'seed': 1, 'torch_deterministic': True, 'cuda': True, 'track': True, 'wandb_project_name': 'super-mario', 'wandb_entity': None, 'capture_video': False, 'env_id': 'SuperMarioBros-v2', 'total_timesteps': 50000000, 'learning_rate': 0.00025, 'num_envs': 16, 'num_steps': 2048, 'anneal_lr': True, 'gamma': 0.99, 'gae_lambda': 0.95, 'num_minibatches': 64, 'update_epochs': 10, 'norm_adv': True, 'clip_coef': 0.2, 'clip_vloss': True, 'ent_coef': 0.0, 'vf_coef': 0.5, 'max_grad_norm': 0.5, 'target_kl': None, 'eval_interval': 10, 'save_path': 'checkpoints', 'batch_size': 32768, 'minibatch_size': 512}
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_init.py:init():569] starting backend
+2022-10-24 02:37:01,998 INFO    MainThread:2563129 [wandb_init.py:init():573] setting up manager
+2022-10-24 02:37:02,000 INFO    MainThread:2563129 [backend.py:_multiprocessing_setup():102] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2022-10-24 02:37:02,001 INFO    MainThread:2563129 [wandb_init.py:init():580] backend started and connected
+2022-10-24 02:37:02,003 INFO    MainThread:2563129 [wandb_init.py:init():658] updated telemetry
+2022-10-24 02:37:02,011 INFO    MainThread:2563129 [wandb_init.py:init():693] communicating run to backend with 60 second timeout
+2022-10-24 02:37:02,179 INFO    MainThread:2563129 [wandb_run.py:_on_init():2000] communicating current version
+2022-10-24 02:37:02,222 INFO    MainThread:2563129 [wandb_run.py:_on_init():2004] got version response 
+2022-10-24 02:37:02,222 INFO    MainThread:2563129 [wandb_init.py:init():728] starting run threads in backend
+2022-10-24 02:37:03,946 INFO    MainThread:2563129 [wandb_run.py:_console_start():1980] atexit reg
+2022-10-24 02:37:03,946 INFO    MainThread:2563129 [wandb_run.py:_redirect():1838] redirect: SettingsConsole.WRAP_RAW
+2022-10-24 02:37:03,946 INFO    MainThread:2563129 [wandb_run.py:_redirect():1903] Wrapping output streams.
+2022-10-24 02:37:03,946 INFO    MainThread:2563129 [wandb_run.py:_redirect():1925] Redirects installed.
+2022-10-24 02:37:03,946 INFO    MainThread:2563129 [wandb_init.py:init():765] run started, returning control to user process
+2022-10-24 02:37:18,061 WARNING MsgRouterThr:2563129 [router.py:message_loop():77] message_loop has been closed
