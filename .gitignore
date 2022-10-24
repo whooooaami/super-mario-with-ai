@@ -1,0 +1,6 @@
+/wandb/*
+wandb/*
+/runs/*
+runs/*
+checkpoints/*
+/checkpoints/*
